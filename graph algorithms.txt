@@ -1,0 +1,34 @@
+ bool isCyclic(int n, vector<int> graph[]) { //Bfs for cycle detection in directed graph (Kanh's Algorithm)
+        
+        queue<int> q;
+        vector<int> indegree(n, 0);
+        
+        for(int u = 0; u < n; u++)
+            for(int &v : graph[u])
+                indegree[v]++;
+        
+        int count = 0;
+        
+        for(int i = 0; i < n; i++)
+            if(indegree[i] == 0){
+                q.push(i);
+                count++;
+            }
+
+        while(q.empty() == 0){
+            int u = q.front();
+            q.pop();
+
+            for(int &v : graph[u]){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    q.push(v);
+                    count++;
+                }
+            }
+        }
+        
+        return (count == n) ? false : true;
+
+    }
+
